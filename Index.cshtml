@@ -1,0 +1,65 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Inventory Management";
+}
+
+<script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
+
+<div class="row" style="margin-top:25px;">
+    <div class="col-sm-6">
+        To add new records, please click here:
+        <a href="@Url.Action("AddNewPackage", "Test")" class="btn btn-primary">Add New</a>
+    </div>
+    <div class="col-sm-6">
+        To access live streaming, please click here:
+        <a href="@Url.Action("ViewCameraFeed", "Test")" class="btn btn-primary">View Camera Feed</a>
+    </div>
+</div>
+
+
+<div class="panel panel-default" style="margin-top:25px;">
+    <div class="panel-heading">
+        <h4>Package Listing</h4>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="tblPackages" class="table table-bordered table-striped" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Carton Id</th>
+                            <th>Barcode</th>
+                            <th>Pickup Location</th>
+                            <th>Pickup Date</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var tblPackages = $("#tblPackages").DataTable({
+            "ajax": {
+                "url": "Test/GetPackages",
+                "tye": "GET",
+                "datatype": "json",
+            },
+            "columns": [
+                { "data": "CartonId", "autowidth": true },
+                { "data": "Barcode", "autowidth": true },
+                { "data": "PickupLocation", "autowidth": true },
+                { "data": "PickupDateString", "autowidth": true }
+            ],
+            "order": [],
+            "lengthMenu": [[50, 100, 200], [50, 100, 200]]
+        });
+
+        setInterval(function () {
+            tblPackages.ajax.reload();
+        }, 5000);
+    });
+</script>

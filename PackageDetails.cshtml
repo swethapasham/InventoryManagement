@@ -1,0 +1,57 @@
+﻿@using TestProject.Models
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet" />
+
+@model Package
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Package Details";
+}
+
+@using (Html.BeginForm("SavePackageDetails", "Test", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="panel panel-default" style="margin-top:25px;">
+        <div class="panel-heading">
+            <h4>Package Details</h4>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="row form-group">
+                        <div class="col-sm-4">
+                            <label for="PickupLocation">Pickup Location:*</label>
+                        </div>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.PickupLocation, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PickupLocation, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-4">
+                            <label for="PickupDate">Pickup Date:*</label>
+                        </div>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.PickupDate, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PickupDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary" id="btnNext">Save</button>
+                            <a href="@Url.Action("Index", "Test")" class="btn btn-default">Back</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $("#PickupDate").datepicker({
+            dateFormat: 'mm-dd-yy'
+        });
+    });
+</script>
